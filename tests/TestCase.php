@@ -27,6 +27,7 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('queue.failed.database', 'testing');
     }
 
     protected function defineDatabaseMigrations(): void

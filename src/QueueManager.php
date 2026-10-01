@@ -19,17 +19,8 @@ class QueueManager
      */
     public function retry(string|int ...$ids): void
     {
-        $useUuid = config('queue.failed.driver') === 'database-uuids';
-
         foreach ($ids as $id) {
-            $identifier = $id;
-
-            if ($useUuid) {
-                $failedJob = FailedJob::query()->whereKey($id)->first();
-                $identifier = $failedJob->uuid ?? $id;
-            }
-
-            Artisan::call('queue:retry', ['id' => $identifier]);
+            Artisan::call('queue:retry', ['id' => $this->failedJobIdentifier($id)]);
         }
     }
 
@@ -46,7 +37,7 @@ class QueueManager
      */
     public function forget(string|int $id): void
     {
-        Artisan::call('queue:forget', ['id' => $id]);
+        Artisan::call('queue:forget', ['id' => $this->failedJobIdentifier($id)]);
     }
 
     /**
@@ -63,5 +54,20 @@ class QueueManager
     public function deletePendingJob(int $id): void
     {
         Job::query()->whereKey($id)->delete();
+    }
+
+    /**
+     * Resolve the identifier the failed job provider expects: the uuid when
+     * "queue.failed.driver" is "database-uuids", otherwise the given id.
+     * Non-numeric input is already a uuid and is returned untouched: MySQL
+     * would cast "7f3a..." to 7 and resolve another job's uuid.
+     */
+    private function failedJobIdentifier(string|int $id): string|int
+    {
+        if (config('queue.failed.driver') !== 'database-uuids' || ! ctype_digit((string) $id)) {
+            return $id;
+        }
+
+        return FailedJob::query()->whereKey($id)->value('uuid') ?? $id;
     }
 }

@@ -72,6 +72,8 @@ it('retries all failed jobs', function () {
 });
 
 it('forgets a single failed job', function () {
+    config()->set('queue.failed.driver', 'database');
+
     $kernel = fakeKernel();
     $kernel->shouldReceive('call')
         ->once()
@@ -79,6 +81,46 @@ it('forgets a single failed job', function () {
         ->andReturn(0);
 
     app(QueueManager::class)->forget(42);
+});
+
+it('forgets using the uuid when the driver is database-uuids', function () {
+    config()->set('queue.failed.driver', 'database-uuids');
+
+    $uuid = (string) Str::uuid();
+    $failedJob = makeFailedJob($uuid);
+
+    $kernel = fakeKernel();
+    $kernel->shouldReceive('call')
+        ->once()
+        ->with('queue:forget', ['id' => $uuid])
+        ->andReturn(0);
+
+    app(QueueManager::class)->forget($failedJob->id);
+});
+
+it('forgets using the given uuid unchanged when the driver is database-uuids', function () {
+    config()->set('queue.failed.driver', 'database-uuids');
+
+    $uuid = '1'.substr((string) Str::uuid(), 1);
+    makeFailedJob((string) Str::uuid());
+
+    $kernel = fakeKernel();
+    $kernel->shouldReceive('call')
+        ->once()
+        ->with('queue:forget', ['id' => $uuid])
+        ->andReturn(0);
+
+    app(QueueManager::class)->forget($uuid);
+});
+
+it('deletes the failed job row when forgetting with the database-uuids driver', function () {
+    config()->set('queue.failed.driver', 'database-uuids');
+
+    $failedJob = makeFailedJob((string) Str::uuid());
+
+    app(QueueManager::class)->forget($failedJob->id);
+
+    expect(FailedJob::query()->whereKey($failedJob->id)->exists())->toBeFalse();
 });
 
 it('flushes all failed jobs', function () {
