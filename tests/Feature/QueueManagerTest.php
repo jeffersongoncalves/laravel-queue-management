@@ -98,6 +98,21 @@ it('forgets using the uuid when the driver is database-uuids', function () {
     app(QueueManager::class)->forget($failedJob->id);
 });
 
+it('forgets using the given uuid unchanged when the driver is database-uuids', function () {
+    config()->set('queue.failed.driver', 'database-uuids');
+
+    $uuid = '1'.substr((string) Str::uuid(), 1);
+    makeFailedJob((string) Str::uuid());
+
+    $kernel = fakeKernel();
+    $kernel->shouldReceive('call')
+        ->once()
+        ->with('queue:forget', ['id' => $uuid])
+        ->andReturn(0);
+
+    app(QueueManager::class)->forget($uuid);
+});
+
 it('deletes the failed job row when forgetting with the database-uuids driver', function () {
     config()->set('queue.failed.driver', 'database-uuids');
 

@@ -59,10 +59,12 @@ class QueueManager
     /**
      * Resolve the identifier the failed job provider expects: the uuid when
      * "queue.failed.driver" is "database-uuids", otherwise the given id.
+     * Non-numeric input is already a uuid and is returned untouched: MySQL
+     * would cast "7f3a..." to 7 and resolve another job's uuid.
      */
     private function failedJobIdentifier(string|int $id): string|int
     {
-        if (config('queue.failed.driver') !== 'database-uuids') {
+        if (config('queue.failed.driver') !== 'database-uuids' || ! ctype_digit((string) $id)) {
             return $id;
         }
 
