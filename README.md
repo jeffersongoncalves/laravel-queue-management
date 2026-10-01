@@ -87,14 +87,15 @@ use JeffersonGoncalves\QueueManagement\QueueManager;
 
 $manager = app(QueueManager::class);
 
-// Retry one or more failed jobs (by failed_jobs.id).
-// When queue.failed.driver is "database-uuids" the uuid is used automatically.
+// Retry one or more failed jobs by failed_jobs.id or uuid.
+// When queue.failed.driver is "database-uuids", numeric ids are resolved to
+// the job's uuid automatically; uuids are passed through unchanged.
 $manager->retry(1, 2, 3);
 
 // Retry every failed job
 $manager->retryAll();
 
-// Forget a single failed job by id or uuid
+// Forget a single failed job by id or uuid (same id → uuid resolution as retry)
 $manager->forget(1);
 
 // Flush all failed jobs
