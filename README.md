@@ -1,6 +1,6 @@
 <div class="filament-hidden">
 
-![Laravel Queue Management](https://raw.githubusercontent.com/jeffersongoncalves/laravel-queue-management/master/art/jeffersongoncalves-laravel-queue-management.png)
+![Laravel Queue Management](https://raw.githubusercontent.com/jeffersongoncalves/laravel-queue-management/main/art/jeffersongoncalves-laravel-queue-management.png)
 
 </div>
 
@@ -9,9 +9,9 @@
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jeffersongoncalves)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/jeffersongoncalves/laravel-queue-management.svg?style=flat-square)](https://packagist.org/packages/jeffersongoncalves/laravel-queue-management)
-[![run-tests](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/tests.yml)
-[![Fix PHP code style issues](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/fix-php-code-style-issues.yml)
-[![PHPStan](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/phpstan.yml?branch=master&label=phpstan&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/phpstan.yml)
+[![run-tests](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/tests.yml)
+[![Fix PHP code style issues](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/fix-php-code-style-issues.yml)
+[![PHPStan](https://img.shields.io/github/actions/workflow/status/jeffersongoncalves/laravel-queue-management/phpstan.yml?branch=main&label=phpstan&style=flat-square)](https://github.com/jeffersongoncalves/laravel-queue-management/actions/workflows/phpstan.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/jeffersongoncalves/laravel-queue-management.svg?style=flat-square)](https://packagist.org/packages/jeffersongoncalves/laravel-queue-management)
 
 A headless toolkit for managing Laravel's database-driver queue tables (`jobs`, `failed_jobs`, `job_batches`). It provides Eloquent models for each table plus a small service layer (and facade) to retry, forget and flush failed jobs and delete pending jobs.
